@@ -4,7 +4,7 @@
   "scripts": {
     "build": "rsbuild build",
     "check": "biome check --write",
-    "dev": "rsbuild dev --open",
+    "dev": "rsbuild dev --env-dir config --open",
     "format": "biome format --write",
     "preview": "rsbuild preview",
     "prepare": "husky",
@@ -29,6 +29,7 @@
     "@commitlint/config-conventional": "^19.0.3",
     "@rsbuild/core": "1.0.1-rc.5",
     "@rsbuild/plugin-react": "1.0.1-rc.5",
+    "@rsbuild/plugin-sass": "^1.0.1",
     "@types/node": "^22.5.4",
     "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",

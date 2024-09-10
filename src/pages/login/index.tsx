@@ -1,4 +1,4 @@
-import login_bg from '@/assets/login_bg.webp';
+import login_bg from '@/assets/login_bg.png';
 import logo from '@/assets/logo.webp';
 import {
   EuiButton,
@@ -12,6 +12,7 @@ import {
   EuiTextColor,
 } from '@elastic/eui';
 
+import ThemeSwitch from '@/components/Switch';
 import { useAppDispatch } from '@/store/hooks';
 import { setUser } from '@/store/slices/AuthSlice';
 import { firebaseAuth, firebaseDB, usersRef } from '@/utils/firebaseConfig';
@@ -22,7 +23,7 @@ import {
 } from 'firebase/auth';
 import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
-
+// import { useEffect } from "react";
 const LoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -51,8 +52,9 @@ const LoginPage = () => {
       navigate('/home');
     }
   };
+
   return (
-    <EuiProvider colorMode="dark">
+    <EuiProvider>
       <EuiFlexGroup
         justifyContent="center"
         alignItems="center"
@@ -62,10 +64,25 @@ const LoginPage = () => {
           <EuiPanel paddingSize="xl">
             <EuiFlexGroup justifyContent="center" alignItems="center">
               <EuiFlexItem>
-                <EuiImage src={login_bg} alt="logo" size="500px" />
+                <EuiImage src={login_bg} alt="login_bg" />
               </EuiFlexItem>
               <EuiFlexItem>
-                <EuiImage src={logo} alt="logo" size="150px" />
+                <EuiFlexGroup justifyContent="spaceBetween" alignItems="center">
+                  <EuiImage
+                    src={logo}
+                    alt="logo"
+                    size="64px"
+                    style={{
+                      borderRadius: '6px',
+                    }}
+                  />
+                  <EuiText grow={false}>
+                    <h2>
+                      <EuiTextColor>Login</EuiTextColor>
+                    </h2>
+                  </EuiText>
+                  <ThemeSwitch />
+                </EuiFlexGroup>
                 <EuiSpacer size="xs" />
                 <EuiText textAlign="center" grow={false}>
                   <h3>
