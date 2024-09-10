@@ -1,12 +1,10 @@
-import './App.css';
-
-const App = () => {
-  return (
-    <div className="content">
-      <h1>Rsbuild with React</h1>
-      <p>Start building amazing things with Rsbuild.</p>
-    </div>
-  );
-};
-
+import { lazy } from 'react';
+import '@elastic/eui/dist/eui_theme_light.css';
+import { EuiProvider } from '@elastic/eui';
+import { RouteContainer } from './router';
+const App = () => (
+  <EuiProvider colorMode="light">
+    <RouteContainer />
+  </EuiProvider>
+);
 export default App;
