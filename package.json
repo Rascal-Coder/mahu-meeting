@@ -1,0 +1,42 @@
+{
+  "name": "rsbuild-project",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "build": "rsbuild build",
+    "check": "biome check --write",
+    "dev": "rsbuild dev --open",
+    "format": "biome format --write",
+    "preview": "rsbuild preview",
+    "prepare": "husky",
+    "commit": "git-cz"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.0.3",
+    "@commitlint/config-conventional": "^19.0.3",
+    "@biomejs/biome": "^1.8.3",
+    "@rsbuild/core": "1.0.1-rc.5",
+    "@rsbuild/plugin-react": "1.0.1-rc.5",
+    "@types/react": "^18.3.5",
+    "@types/react-dom": "^18.3.0",
+    "husky": "^9.1.5",
+    "lint-staged": "^15.2.10",
+    "typescript": "^5.5.2",
+    "cz-git": "^1.9.4"
+  },
+  "lint-staged": {
+    "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}": [
+      "biome check --files-ignore-unknown=true",
+      "biome check --write --no-errors-on-unmatched",
+      "biome check --write --organize-imports-enabled=false --no-errors-on-unmatched",
+      "biome check --write --unsafe --no-errors-on-unmatched",
+      "biome format --write --no-errors-on-unmatched",
+      "biome lint --write --no-errors-on-unmatched"
+    ],
+    "*": ["biome check --no-errors-on-unmatched --files-ignore-unknown=true"]
+  }
+}
