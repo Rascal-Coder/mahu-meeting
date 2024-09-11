@@ -10,16 +10,92 @@ import {
 } from '@/utils/breadcrumbs';
 import { firebaseAuth } from '@/utils/firebaseConfig';
 import {
+  EuiAvatar,
   EuiFlexGroup,
   EuiFlexItem,
   EuiHeader,
+  EuiHeaderSectionItemButton,
+  EuiLink,
+  EuiPopover,
+  EuiSpacer,
   EuiText,
   EuiTextColor,
+  useGeneratedHtmlId,
 } from '@elastic/eui';
 import { signOut } from 'firebase/auth';
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import ThemeSwitch from './Switch';
+const logout = () => {
+  signOut(firebaseAuth);
+};
+const HeaderUserMenu = () => {
+  const userName = useAppSelector((app) => app.auth.userInfo?.name);
+  const headerUserPopoverId = useGeneratedHtmlId({
+    prefix: 'headerUserPopover',
+  });
+  const [isOpen, setIsOpen] = useState(false);
+
+  const onMenuButtonClick = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const closeMenu = () => {
+    setIsOpen(false);
+  };
+
+  const button = (
+    <EuiHeaderSectionItemButton
+      aria-controls={headerUserPopoverId}
+      aria-expanded={isOpen}
+      aria-haspopup="true"
+      aria-label="Account menu"
+      onClick={onMenuButtonClick}
+    >
+      {userName ? <EuiAvatar name={userName} size="s" /> : null}
+    </EuiHeaderSectionItemButton>
+  );
+
+  return (
+    <EuiPopover
+      id={headerUserPopoverId}
+      button={button}
+      isOpen={isOpen}
+      anchorPosition="downRight"
+      closePopover={closeMenu}
+      panelPaddingSize="m"
+    >
+      <div style={{ width: 150 }}>
+        <EuiFlexGroup gutterSize="m" responsive={false}>
+          <EuiFlexItem grow={false}>
+            {userName ? <EuiAvatar name={userName} size="xl" /> : null}
+          </EuiFlexItem>
+
+          <EuiFlexItem>
+            {userName ? (
+              <EuiText>
+                <p>{userName}</p>
+              </EuiText>
+            ) : null}
+
+            <EuiSpacer size="m" />
+
+            <EuiFlexGroup>
+              <EuiFlexItem>
+                <EuiFlexGroup justifyContent="spaceBetween">
+                  <EuiFlexItem grow={false}>
+                    <EuiLink onClick={logout}>Log out</EuiLink>
+                  </EuiFlexItem>
+                </EuiFlexGroup>
+              </EuiFlexItem>
+            </EuiFlexGroup>
+          </EuiFlexItem>
+        </EuiFlexGroup>
+      </div>
+    </EuiPopover>
+  );
+};
+
 export default function Header() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -48,9 +124,6 @@ export default function Header() {
     }
   }, [location, navigate]);
 
-  // const logout = () => {
-  //   signOut(firebaseAuth);
-  // };
   const section = [
     {
       items: [
@@ -89,6 +162,9 @@ export default function Header() {
           <EuiFlexItem grow={false} style={{ flexBasis: 'fit-content' }}>
             <ThemeSwitch />
           </EuiFlexItem>
+          <EuiFlexItem grow={false} style={{ flexBasis: 'fit-content' }}>
+            <HeaderUserMenu />
+          </EuiFlexItem>
         </EuiFlexGroup>,
       ],
     },
@@ -117,6 +193,9 @@ export default function Header() {
         >
           <EuiFlexItem grow={false} style={{ flexBasis: 'fit-content' }}>
             <ThemeSwitch />
+          </EuiFlexItem>
+          <EuiFlexItem grow={false} style={{ flexBasis: 'fit-content' }}>
+            <HeaderUserMenu />
           </EuiFlexItem>
         </EuiFlexGroup>,
       ],
