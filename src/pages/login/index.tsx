@@ -30,14 +30,13 @@ const LoginPage = () => {
   onAuthStateChanged(firebaseAuth, (currentUser) => {
     if (currentUser) navigate('/');
   });
-
-  const login = async () => {
+  // TODO: add github login
+  const loginGithub = async () => {};
+  const loginGoogle = async () => {
     const provider = new GoogleAuthProvider();
     const {
-      user: { displayName, email, uid },
+      user: { displayName, email, uid, photoURL },
     } = await signInWithPopup(firebaseAuth, provider);
-    console.log('user', await signInWithPopup(firebaseAuth, provider));
-
     if (email) {
       const firestoreQuery = query(usersRef, where('uid', '==', uid));
       const fetchedUser = await getDocs(firestoreQuery);
@@ -46,9 +45,17 @@ const LoginPage = () => {
           uid,
           name: displayName,
           email,
+          photoURL,
         });
       }
-      dispatch(setUser({ uid, email, name: displayName as string }));
+      dispatch(
+        setUser({
+          uid,
+          email,
+          name: displayName as string,
+          photoURL: photoURL as string,
+        }),
+      );
       navigate('/home');
     }
   };
@@ -58,7 +65,7 @@ const LoginPage = () => {
       <EuiFlexGroup
         justifyContent="center"
         alignItems="center"
-        style={{ width: '100vw', height: '100vh' }}
+        style={{ width: '100vw', height: '100vh', overflowY: 'auto' }}
       >
         <EuiFlexItem grow={false}>
           <EuiPanel paddingSize="xl">
@@ -81,9 +88,9 @@ const LoginPage = () => {
                       <EuiTextColor>Login</EuiTextColor>
                     </h2>
                   </EuiText>
-                  {/* <ThemeSwitch /> */}
+                  <ThemeSwitch />
                 </EuiFlexGroup>
-                <EuiSpacer size="xs" />
+                <EuiSpacer size="l" />
                 <EuiText textAlign="center" grow={false}>
                   <h3>
                     <EuiTextColor>One Platform to</EuiTextColor>
@@ -91,7 +98,11 @@ const LoginPage = () => {
                   </h3>
                 </EuiText>
                 <EuiSpacer size="l" />
-                <EuiButton fill onClick={login}>
+                <EuiButton fill onClick={loginGithub}>
+                  Login with Github
+                </EuiButton>
+                <EuiSpacer size="l" />
+                <EuiButton fill onClick={loginGoogle}>
                   Login with Google
                 </EuiButton>
               </EuiFlexItem>

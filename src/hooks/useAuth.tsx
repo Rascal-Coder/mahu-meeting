@@ -17,6 +17,7 @@ export default function useAuth() {
             uid: currentUser.uid,
             email: currentUser.email as string,
             name: currentUser.displayName as string,
+            photoURL: currentUser.photoURL as string,
           }),
         );
       }

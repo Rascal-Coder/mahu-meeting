@@ -31,6 +31,7 @@ const logout = () => {
 };
 const HeaderUserMenu = () => {
   const userName = useAppSelector((app) => app.auth.userInfo?.name);
+  const userAvatar = useAppSelector((app) => app.auth.userInfo?.photoURL);
   const headerUserPopoverId = useGeneratedHtmlId({
     prefix: 'headerUserPopover',
   });
@@ -52,7 +53,10 @@ const HeaderUserMenu = () => {
       aria-label="Account menu"
       onClick={onMenuButtonClick}
     >
-      {userName ? <EuiAvatar name={userName} size="s" /> : null}
+      {userName ? (
+        // biome-ignore lint/style/noNonNullAssertion: <explanation>
+        <EuiAvatar name={userName} size="s" imageUrl={userAvatar!} />
+      ) : null}
     </EuiHeaderSectionItemButton>
   );
 
@@ -68,7 +72,10 @@ const HeaderUserMenu = () => {
       <div style={{ width: 150 }}>
         <EuiFlexGroup gutterSize="m" responsive={false}>
           <EuiFlexItem grow={false}>
-            {userName ? <EuiAvatar name={userName} size="xl" /> : null}
+            {userName ? (
+              // biome-ignore lint/style/noNonNullAssertion: <explanation>
+              <EuiAvatar name={userName} size="xl" imageUrl={userAvatar!} />
+            ) : null}
           </EuiFlexItem>
 
           <EuiFlexItem>
