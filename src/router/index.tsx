@@ -12,6 +12,7 @@ const MeetingsPage = lazy(() => import('@/pages/meetings'));
 const MyMeetingsPage = lazy(() => import('@/pages/myMeetings'));
 const OneOnOneMeetingPage = lazy(() => import('@/pages/oneOnOneMeeting'));
 const VideoConferencePage = lazy(() => import('@/pages/videoConference'));
+const JoinMeetingPage = lazy(() => import('@/pages/joinMeeting'));
 const routerItems = [
   <Route path="/login" element={<LoginPage />} key="LOGIN" />,
   <Route path="/create" element={<CreateMeetingPage />} key="CREATEMEETING" />,
@@ -26,6 +27,7 @@ const routerItems = [
     key="VIDEOCONFERENCE"
   />,
   <Route path="/mymeetings" element={<MyMeetingsPage />} key="MYMEETINGS" />,
+  <Route path="/join/:id" element={<JoinMeetingPage />} key="JOINMEETING" />,
   <Route path="/meetings" element={<MeetingsPage />} key="MEETINGS" />,
   <Route path="/" element={<HomePage />} key="HOME" />,
   <Route path="*" element={<LoginPage />} key="LOGIN" />,

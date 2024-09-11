@@ -87,7 +87,7 @@ export default function Header() {
           key={'section'}
         >
           <EuiFlexItem grow={false} style={{ flexBasis: 'fit-content' }}>
-            <ThemeSwitch />
+            {/* <ThemeSwitch /> */}
           </EuiFlexItem>
         </EuiFlexGroup>,
       ],
@@ -116,7 +116,7 @@ export default function Header() {
           key={'responsive-section'}
         >
           <EuiFlexItem grow={false} style={{ flexBasis: 'fit-content' }}>
-            <ThemeSwitch />
+            {/* <ThemeSwitch /> */}
           </EuiFlexItem>
         </EuiFlexGroup>,
       ],

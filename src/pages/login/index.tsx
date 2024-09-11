@@ -81,7 +81,7 @@ const LoginPage = () => {
                       <EuiTextColor>Login</EuiTextColor>
                     </h2>
                   </EuiText>
-                  <ThemeSwitch />
+                  {/* <ThemeSwitch /> */}
                 </EuiFlexGroup>
                 <EuiSpacer size="xs" />
                 <EuiText textAlign="center" grow={false}>

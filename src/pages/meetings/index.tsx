@@ -99,9 +99,7 @@ export default function Meeting() {
       width: '10%',
       render: (meetingId: string) => {
         return (
-          <EuiCopy
-            textToCopy={`${process.env.REACT_APP_HOST}/join/${meetingId}`}
-          >
+          <EuiCopy textToCopy={`${location.host}/join/${meetingId}`}>
             {/* biome-ignore lint/suspicious/noExplicitAny: <explanation> */}
             {(copy: any) => (
               <EuiButtonIcon
