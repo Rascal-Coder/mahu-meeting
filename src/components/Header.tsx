@@ -87,7 +87,7 @@ export default function Header() {
           key={'section'}
         >
           <EuiFlexItem grow={false} style={{ flexBasis: 'fit-content' }}>
-            {/* <ThemeSwitch /> */}
+            <ThemeSwitch />
           </EuiFlexItem>
         </EuiFlexGroup>,
       ],
@@ -116,7 +116,7 @@ export default function Header() {
           key={'responsive-section'}
         >
           <EuiFlexItem grow={false} style={{ flexBasis: 'fit-content' }}>
-            {/* <ThemeSwitch /> */}
+            <ThemeSwitch />
           </EuiFlexItem>
         </EuiFlexGroup>,
       ],
@@ -133,7 +133,9 @@ export default function Header() {
     <>
       <EuiHeader
         style={{ minHeight: '8vh' }}
-        theme="dark"
+        theme={
+          localStorage.getItem('mahu-theme') === 'dark' ? 'dark' : 'default'
+        }
         sections={isResponsive ? responsiveSection : section}
       />
       <EuiHeader
