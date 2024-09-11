@@ -1,10 +1,14 @@
 import type { EuiThemeColorMode } from '@elastic/eui';
-import { type ReactNode, Suspense, lazy, useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 
-const LightTheme = lazy(() => import('./Themes/LightTheme'));
-const DarkTheme = lazy(() => import('./Themes/DarkTheme'));
+const LightTheme = React.lazy(() => import('./Themes/LightTheme'));
+const DarkTheme = React.lazy(() => import('./Themes/DarkTheme'));
 
-export default function ThemeSelector({ children }: { children: ReactNode }) {
+export default function ThemeSelector({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [theme, setTheme] = useState<EuiThemeColorMode>('light');
   useEffect(() => {
     const theme = localStorage.getItem('zoom-theme');
@@ -15,7 +19,8 @@ export default function ThemeSelector({ children }: { children: ReactNode }) {
 
   return (
     <>
-      <Suspense fallback={<div>loding...</div>}>
+      {/* biome-ignore lint/complexity/noUselessFragments: <explanation> */}
+      <Suspense fallback={<></>}>
         {theme === 'dark' ? <DarkTheme /> : <LightTheme />}
       </Suspense>
       {children}

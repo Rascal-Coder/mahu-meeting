@@ -23,7 +23,6 @@ import {
 } from 'firebase/auth';
 import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
-// import { useEffect } from "react";
 const LoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -37,6 +36,7 @@ const LoginPage = () => {
     const {
       user: { displayName, email, uid },
     } = await signInWithPopup(firebaseAuth, provider);
+    console.log('user', await signInWithPopup(firebaseAuth, provider));
 
     if (email) {
       const firestoreQuery = query(usersRef, where('uid', '==', uid));

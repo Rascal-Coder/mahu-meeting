@@ -2,7 +2,7 @@
   "name": "rsbuild-project",
   "version": "1.0.0",
   "scripts": {
-    "build": "rsbuild build",
+    "build": "rsbuild build --env-dir config",
     "check": "biome check --write",
     "dev": "rsbuild dev --env-dir config --open",
     "format": "biome format --write",

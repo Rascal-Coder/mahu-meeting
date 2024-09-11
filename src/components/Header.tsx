@@ -1,5 +1,4 @@
 import { useAppSelector } from '@/store/hooks';
-import { changeTheme } from '@/store/slices/AuthSlice';
 import type { BreadCrumbsType } from '@/typings';
 import {
   getCreateMeetingBreadCrumbs,
@@ -11,7 +10,6 @@ import {
 } from '@/utils/breadcrumbs';
 import { firebaseAuth } from '@/utils/firebaseConfig';
 import {
-  EuiButtonIcon,
   EuiFlexGroup,
   EuiFlexItem,
   EuiHeader,
@@ -20,55 +18,46 @@ import {
 } from '@elastic/eui';
 import { signOut } from 'firebase/auth';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-
+import ThemeSwitch from './Switch';
 export default function Header() {
   const navigate = useNavigate();
   const location = useLocation();
-  const userName = useAppSelector((zoomApp) => zoomApp.auth.userInfo?.name);
-  const isDarkTheme = useAppSelector((zoomApp) => zoomApp.auth.isDarkTheme);
+  const userName = useAppSelector((app) => app.auth.userInfo?.name);
   const [breadCrumbs, setBreadCrumbs] = useState<Array<BreadCrumbsType>>([
     {
       text: 'Dashboard',
     },
   ]);
-  const dispatch = useDispatch();
   const [isResponsive, setIsResponsive] = useState(false);
 
   useEffect(() => {
     const { pathname } = location;
-    if (pathname === '/') setBreadCrumbs(getDashboardBreadCrumbs(navigate));
-    else if (pathname === '/create')
+    if (pathname === '/') {
+      setBreadCrumbs(getDashboardBreadCrumbs());
+    } else if (pathname === '/create') {
       setBreadCrumbs(getCreateMeetingBreadCrumbs(navigate));
-    else if (pathname === '/create1on1')
+    } else if (pathname === '/create1on1') {
       setBreadCrumbs(getOneOnOneMeetingBreadCrumbs(navigate));
-    else if (pathname === '/videoconference')
+    } else if (pathname === '/videoconference') {
       setBreadCrumbs(getVideoConferenceBreadCrumbs(navigate));
-    else if (pathname === '/mymeetings')
+    } else if (pathname === '/mymeetings') {
       setBreadCrumbs(getMyMeetingsBreadCrumbs(navigate));
-    else if (pathname === '/meetings') {
+    } else if (pathname === '/meetings') {
       setBreadCrumbs(getMeetingsBreadCrumbs(navigate));
     }
   }, [location, navigate]);
 
-  const logout = () => {
-    signOut(firebaseAuth);
-  };
-
-  const invertTheme = () => {
-    const theme = localStorage.getItem('zoom-theme');
-    localStorage.setItem('zoom-theme', theme === 'light' ? 'dark' : 'light');
-    dispatch(changeTheme({ isDarkTheme: !isDarkTheme }));
-  };
-
+  // const logout = () => {
+  //   signOut(firebaseAuth);
+  // };
   const section = [
     {
       items: [
         <Link to="/" key={'link-to-home'}>
           <EuiText>
             <h2 style={{ padding: '0 1vw' }}>
-              <EuiTextColor color="#0b5cff">Zoom</EuiTextColor>
+              <EuiTextColor color="#0b5cff">Mahu-meeting</EuiTextColor>
             </h2>
           </EuiText>
         </Link>,
@@ -98,34 +87,7 @@ export default function Header() {
           key={'section'}
         >
           <EuiFlexItem grow={false} style={{ flexBasis: 'fit-content' }}>
-            {isDarkTheme ? (
-              <EuiButtonIcon
-                onClick={invertTheme}
-                iconType="sun"
-                display="fill"
-                size="s"
-                color="warning"
-                aria-label="theme-button-light"
-              />
-            ) : (
-              <EuiButtonIcon
-                onClick={invertTheme}
-                iconType="moon"
-                display="fill"
-                size="s"
-                color="text"
-                aria-label="theme-button-dark"
-              />
-            )}
-          </EuiFlexItem>
-          <EuiFlexItem grow={false} style={{ flexBasis: 'fit-content' }}>
-            <EuiButtonIcon
-              onClick={logout}
-              iconType="lock"
-              display="fill"
-              size="s"
-              aria-label="logout-button"
-            />
+            <ThemeSwitch />
           </EuiFlexItem>
         </EuiFlexGroup>,
       ],
@@ -138,7 +100,7 @@ export default function Header() {
         <Link to="/" key={'link-to-home'}>
           <EuiText>
             <h2 style={{ padding: '0 1vw' }}>
-              <EuiTextColor color="#0b5cff">Zoom</EuiTextColor>
+              <EuiTextColor color="#0b5cff">Mahu-meeting</EuiTextColor>
             </h2>
           </EuiText>
         </Link>,
@@ -154,34 +116,7 @@ export default function Header() {
           key={'responsive-section'}
         >
           <EuiFlexItem grow={false} style={{ flexBasis: 'fit-content' }}>
-            {isDarkTheme ? (
-              <EuiButtonIcon
-                onClick={invertTheme}
-                iconType="sun"
-                display="fill"
-                size="s"
-                color="warning"
-                aria-label="theme-button-light"
-              />
-            ) : (
-              <EuiButtonIcon
-                onClick={invertTheme}
-                iconType="moon"
-                display="fill"
-                size="s"
-                color="text"
-                aria-label="theme-button-dark"
-              />
-            )}
-          </EuiFlexItem>
-          <EuiFlexItem grow={false} style={{ flexBasis: 'fit-content' }}>
-            <EuiButtonIcon
-              onClick={logout}
-              iconType="lock"
-              display="fill"
-              size="s"
-              aria-label="logout-button"
-            />
+            <ThemeSwitch />
           </EuiFlexItem>
         </EuiFlexGroup>,
       ],
@@ -190,8 +125,6 @@ export default function Header() {
 
   useEffect(() => {
     if (window.innerWidth < 480) {
-      // sectionSpliced.splice(1, 1);
-      // setSection(sectionSpliced);
       setIsResponsive(true);
     }
   }, []);

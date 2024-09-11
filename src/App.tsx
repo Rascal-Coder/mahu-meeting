@@ -1,4 +1,5 @@
 import '@elastic/eui/dist/eui_theme_light.css';
+import '@/styles/index.scss';
 import ThemeSelector from '@/components/ThemeSelector';
 import { useAppSelector } from '@/store/hooks';
 import { setToasts } from '@/store/slices/MeetingSlice';
@@ -13,9 +14,9 @@ import { useDispatch } from 'react-redux';
 import { RouteContainer } from './router';
 const App = () => {
   const dispatch = useDispatch();
-  const isDarkTheme = useAppSelector((zoomApp) => zoomApp.auth.isDarkTheme);
+  const isDarkTheme = useAppSelector((app) => app.auth.isDarkTheme);
   const [isInitialEffect, setIsInitialEffect] = useState(true);
-  const toasts = useAppSelector((zoom) => zoom.meetings.toasts);
+  const toasts = useAppSelector((app) => app.meetings.toasts);
 
   const removeToast = (removedToast: { id: string }) => {
     dispatch(
@@ -26,11 +27,11 @@ const App = () => {
   };
   const [theme, setTheme] = useState<EuiThemeColorMode>('light');
   useEffect(() => {
-    const theme = localStorage.getItem('zoom-theme');
+    const theme = localStorage.getItem('mahu-theme');
     if (theme) {
       setTheme(theme as EuiThemeColorMode);
     } else {
-      localStorage.setItem('zoom-theme', 'light');
+      localStorage.setItem('mahu-theme', 'light');
     }
   }, []);
 

@@ -1,0 +1,21 @@
+#root {
+    overflow: hidden;
+}
+
+.loading {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    top: 0;
+    z-index: 20000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1d2630;
+}
+
+.g-glossy {
+    position: fixed;
+    backdrop-filter: blur(4px);
+}

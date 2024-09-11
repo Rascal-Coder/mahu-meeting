@@ -4,9 +4,7 @@ import dashboard3 from '@/assets/dashboard3.png';
 import Header from '@/components/Header';
 import useAuth from '@/hooks/useAuth';
 import { EuiCard, EuiFlexGroup, EuiFlexItem, EuiImage } from '@elastic/eui';
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
-
 function Dashboard() {
   useAuth();
   const navigate = useNavigate();

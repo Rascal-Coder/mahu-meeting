@@ -1,9 +1,7 @@
 import type { BreadCrumbsType } from '@/typings';
 import type { NavigateFunction } from 'react-router-dom';
 
-export const getDashboardBreadCrumbs = (
-  navigate: NavigateFunction,
-): Array<BreadCrumbsType> => [
+export const getDashboardBreadCrumbs = (): Array<BreadCrumbsType> => [
   {
     text: 'Dashboard',
   },
@@ -14,7 +12,7 @@ export const getCreateMeetingBreadCrumbs = (
 ): Array<BreadCrumbsType> => [
   {
     text: 'Dashboard',
-    href: '#',
+    href: '/',
     onClick: () => {
       navigate('/');
     },
@@ -29,14 +27,14 @@ export const getOneOnOneMeetingBreadCrumbs = (
 ): Array<BreadCrumbsType> => [
   {
     text: 'Dashboard',
-    href: '#',
+    href: '/',
     onClick: () => {
       navigate('/');
     },
   },
   {
     text: 'Create Meeting',
-    href: '#',
+    href: '/create',
     onClick: () => {
       navigate('/create');
     },
@@ -51,14 +49,14 @@ export const getVideoConferenceBreadCrumbs = (
 ): Array<BreadCrumbsType> => [
   {
     text: 'Dashboard',
-    href: '#',
+    href: '/',
     onClick: () => {
       navigate('/');
     },
   },
   {
     text: 'Create Meeting',
-    href: '#',
+    href: '/create',
     onClick: () => {
       navigate('/create');
     },
@@ -73,7 +71,7 @@ export const getMyMeetingsBreadCrumbs = (
 ): Array<BreadCrumbsType> => [
   {
     text: 'Dashboard',
-    href: '#',
+    href: '/',
     onClick: () => {
       navigate('/');
     },
@@ -88,7 +86,7 @@ export const getMeetingsBreadCrumbs = (
 ): Array<BreadCrumbsType> => [
   {
     text: 'Dashboard',
-    href: '#',
+    href: '/',
     onClick: () => {
       navigate('/');
     },
