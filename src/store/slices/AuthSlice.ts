@@ -10,11 +10,13 @@ interface authInitialState {
         photoURL: string;
       };
   isDarkTheme: boolean;
+  loginType: string;
 }
 
 const initialState: authInitialState = {
   userInfo: undefined,
   isDarkTheme: false,
+  loginType: '',
 };
 
 export const authSlice = createSlice({
@@ -40,7 +42,10 @@ export const authSlice = createSlice({
     ) => {
       state.userInfo = action.payload;
     },
+    setLoginType: (state, action: PayloadAction<string>) => {
+      state.loginType = action.payload;
+    },
   },
 });
 
-export const { setUser, changeTheme } = authSlice.actions;
+export const { setUser, changeTheme, setLoginType } = authSlice.actions;

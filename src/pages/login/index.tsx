@@ -14,9 +14,10 @@ import {
 
 import ThemeSwitch from '@/components/Switch';
 import { useAppDispatch } from '@/store/hooks';
-import { setUser } from '@/store/slices/AuthSlice';
+import { setLoginType, setUser } from '@/store/slices/AuthSlice';
 import { firebaseAuth, firebaseDB, usersRef } from '@/utils/firebaseConfig';
 import {
+  GithubAuthProvider,
   GoogleAuthProvider,
   onAuthStateChanged,
   signInWithPopup,
@@ -30,33 +31,66 @@ const LoginPage = () => {
   onAuthStateChanged(firebaseAuth, (currentUser) => {
     if (currentUser) navigate('/');
   });
-  // TODO: add github login
-  const loginGithub = async () => {};
-  const loginGoogle = async () => {
-    const provider = new GoogleAuthProvider();
-    const {
-      user: { displayName, email, uid, photoURL },
-    } = await signInWithPopup(firebaseAuth, provider);
-    if (email) {
-      const firestoreQuery = query(usersRef, where('uid', '==', uid));
-      const fetchedUser = await getDocs(firestoreQuery);
-      if (fetchedUser.docs.length === 0) {
-        await addDoc(collection(firebaseDB, 'users'), {
-          uid,
-          name: displayName,
-          email,
-          photoURL,
-        });
+  const login = async (type: 'google' | 'github') => {
+    dispatch(setLoginType(type));
+    const provider =
+      type === 'google' ? new GoogleAuthProvider() : new GithubAuthProvider();
+    const res = await signInWithPopup(firebaseAuth, provider);
+    if (type === 'google') {
+      const {
+        user: { email, uid, displayName, photoURL },
+      } = res;
+      if (email) {
+        const firestoreQuery = query(usersRef, where('uid', '==', uid));
+        const fetchedUser = await getDocs(firestoreQuery);
+        if (fetchedUser.docs.length === 0) {
+          await addDoc(collection(firebaseDB, 'users'), {
+            uid,
+            name: displayName,
+            email,
+            photoURL,
+          });
+        }
+        dispatch(
+          setUser({
+            uid,
+            email,
+            name: displayName as string,
+            photoURL: photoURL as string,
+          }),
+        );
+        navigate('/home');
       }
-      dispatch(
-        setUser({
-          uid,
-          email,
-          name: displayName as string,
-          photoURL: photoURL as string,
-        }),
-      );
-      navigate('/home');
+    }
+    if (type === 'github') {
+      const {
+        user: { uid, photoURL },
+      } = res;
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      const githubUserInfo = (res.user as any).reloadUserInfo
+        .providerUserInfo[0];
+      const { screenName, email } = githubUserInfo;
+      if (email) {
+        const firestoreQuery = query(usersRef, where('uid', '==', uid));
+        const fetchedUser = await getDocs(firestoreQuery);
+        if (fetchedUser.docs.length === 0) {
+          await addDoc(collection(firebaseDB, 'users'), {
+            uid,
+            name: screenName,
+            email,
+            photoURL,
+          });
+        }
+        dispatch(
+          setUser({
+            uid,
+            email,
+            name: screenName as string,
+            photoURL: photoURL as string,
+          }),
+        );
+        navigate('/home');
+      }
     }
   };
 
@@ -98,11 +132,11 @@ const LoginPage = () => {
                   </h3>
                 </EuiText>
                 <EuiSpacer size="l" />
-                <EuiButton fill onClick={loginGithub}>
+                <EuiButton fill onClick={() => login('github')}>
                   Login with Github
                 </EuiButton>
                 <EuiSpacer size="l" />
-                <EuiButton fill onClick={loginGoogle}>
+                <EuiButton fill onClick={() => login('google')}>
                   Login with Google
                 </EuiButton>
               </EuiFlexItem>
